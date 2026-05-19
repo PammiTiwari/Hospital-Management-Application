@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Search Doctors / Departments</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="/patient/{{ patient.id }}/dashboard">
+          Welcome {{ patient.name }}
+        </a>
+
+        <div class="d-flex ms-auto align-items-center">
+          <a href="/patient/{{ patient.id }}/dashboard" class="navbar-brand me-3">Home</a>
+
+          <form action="/logout" method="post" class="d-inline mb-0">
+            <button type="submit" class="btn btn-outline-danger btn-sm">
+              Log out
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Search form -->
+    <div class="container mt-4">
+      <h3 class="mb-3">Search Doctors / Departments</h3>
+
+      
+      <form action="/patient/{{ patient.id }}/search" method="get" class="mb-4">
+        <div class="mb-3">
+          <label for="searchInput" class="form-label">Search</label>
+          <input
+            type="text"
+            class="form-control"
+            id="searchInput"
+            name="search"
+            value="{{ search or '' }}"
+            placeholder="Search by department name or doctor name"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+        <a href="/patient/{{ patient.id }}/dashboard" class="btn btn-secondary ms-2">
+          Back to Dashboard
+        </a>
+      </form>
+    </div>
+
+    <!-- Department results -->
+    <div class="text-center my-3">
+      <h4 class="fw-bold text-secondary">Matching Departments</h4>
+    </div>
+
+    <div class="container mb-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          {% if departments %}
+          <table class="table table-striped table-hover align-middle mb-0">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">S.no</th>
+                <th scope="col">Department</th>
+                <th scope="col" class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for dept in departments %}
+              <tr>
+                <th scope="row">{{ loop.index }}</th>
+                <td>{{ dept.name }}</td>
+                <td class="text-end">
+                  <a
+                    href="/patient/{{ patient_id }}/departments/{{ dept.id }}"
+                    class="btn btn-primary btn-sm"
+                  >
+                    View Details
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+            <p class="text-muted mb-0">No departments found.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Doctor results -->
+    <div class="text-center my-3">
+      <h4 class="fw-bold text-secondary">Matching Doctors</h4>
+    </div>
+
+    <div class="container mb-5">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          {% if doctors %}
+          <table class="table table-striped table-hover align-middle mb-0">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">S.no</th>
+                <th scope="col">Doctor Name</th>
+                <th scope="col">Department</th>
+                <th scope="col" class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for doc in doctors %}
+              <tr>
+                <th scope="row">{{ loop.index }}</th>
+                <td>{{ doc.name }}</td>
+                <td>{{ doc.department.name if doc.department else '-' }}</td>
+                <td class="text-center">
+                  <!-- View doctor details -->
+                  <a
+                    href="/patient/doctors/{{ doc.id }}"
+                    class="btn btn-outline-primary btn-sm mx-1"
+                  >
+                    View Details
+                  </a>
+
+                  <!-- Book availability -->
+                  <a
+                    href="/patient/{{ patient_id }}/doctors/{{ doc.id }}/availability"
+                    class="btn btn-success btn-sm mx-1"
+                  >
+                    Book Availability
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+            <p class="text-muted mb-0">No doctors found.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

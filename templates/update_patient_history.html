@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Update Patient History</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark px-3">
+      <div class="container-fluid d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+          <span class="navbar-brand fw-bold">Welcome Dr. {{ appt.doctor.name }}</span>
+          <a href="/doctor/{{ appt.doctor_id }}/dashboard" class="navbar-brand ms-3">Home</a>
+        </div>
+        <form action="/logout" method="post" class="mb-0">
+          <button type="submit" class="btn btn-outline-danger btn-sm">Log out</button>
+        </form>
+      </div>
+    </nav>
+
+    <!-- Heading -->
+    <div class="my-3 mx-4">
+      <h3 class="fw-bold text-dark">Update Patient History</h3>
+      <h6 class="mb-1">Patient: <span class="text-secondary">{{ appt.patient.username }}</span></h6>
+      <h6 class="mb-1">Doctor: <span class="text-secondary">Dr. {{ appt.doctor.name }}</span></h6>
+      <h6 class="mb-1">Department: <span class="text-secondary">{{ appt.doctor.department.name }}</span></h6>
+    </div>
+
+    <!-- Form -->
+    <div class="container mt-2">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <form method="POST" action="/appointments/{{ appt.id }}/history/update">
+
+            <div class="mb-3">
+              <label class="form-label" for="test_done">Test Done</label>
+              <textarea
+                class="form-control"
+                id="test_done"
+                name="test_done"
+                rows="3"
+                placeholder="e.g., Blood test, ECG, X-ray, etc."></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="diagnosis">Diagnosis</label>
+              <input
+                class="form-control"
+                type="text"
+                id="diagnosis"
+                name="diagnosis"
+                placeholder="Enter diagnosis..." />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="prescription">Prescription</label>
+              <textarea
+                class="form-control"
+                id="prescription"
+                name="prescription"
+                rows="4"
+                placeholder="Enter prescription..."></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="medicine">Medicine</label>
+              <input
+                class="form-control"
+                type="text"
+                id="medicine"
+                name="medicine"
+                placeholder="Enter medicine..." />
+            </div>
+
+            <div class="text-end">
+              <a href="/doctor/{{ appt.doctor_id }}/dashboard" class="btn btn-outline-secondary me-2">Back</a>
+
+              <button type="submit" name="action" value="complete" class="btn btn-success">
+                Complete
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

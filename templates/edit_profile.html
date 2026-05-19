@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Edit Patient</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"/>
+  </head>
+  <body class="bg-light">
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container-fluid">
+        <div class="d-flex align-items-center">
+          <a class="navbar-brand fw-bold">Welcome Patient</a>
+         
+          <a href="/patient/{{ patient.id }}/dashboard" class="navbar-brand ms-3">Home</a>
+        </div>
+        <form action="/logout" method="post" class="d-inline">
+          <button type="submit" class="btn btn-outline-danger">Log out</button>
+        </form>
+      </div>
+    </nav>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+         <div class="alert alert-{{ 'danger' if category == 'error' else category }} position-relative pe-5">
+            {{ message }}
+            <button type="button" class="btn-close position-absolute top-0 end-0 mt-3 me-2" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="container mt-5">
+      <div class="card shadow mx-auto form-card">
+        <div class="card-body">
+          <h4 class="card-title mb-4 text-center">Edit Patient</h4>
+
+  
+          <form action="/patient/{{ patient.id }}/profile/edit" method="post">
+           
+            <div class="mb-3">
+              <label class="form-label" for="email">Email</label>
+              <input class="form-control" type="email" id="email" name="email" value="{{ patient.email }}" required />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="username">Username</label>
+              <input class="form-control" type="text" id="username" name="username" value="{{ patient.username }}" required />
+            </div>
+            
+
+            <div class="mb-3">
+              <label class="form-label" for="name">Full Name</label>
+              <input class="form-control" type="text" id="name" name="name" value="{{ patient.name }}" required />
+            </div>
+           
+            <div class="mb-3">
+              <label class="form-label" for="password">Assign Password</label>
+              <input class="form-control" type="password" id="password" name="password" placeholder="Leave blank to keep current password" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="age">Age</label>
+              <input class="form-control" type="number" id="age" name="age" value="{{ patient.age }}" min="1" max="60" step="1" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label" for="gender">Gender</label>
+              <select class="form-select" id="gender" name="gender" required>
+                <option disabled value="">Choose Gender...</option>
+                <option value="Male" {% if patient.gender == "Male" %}selected{% endif %}>Male</option>
+                <option value="Female" {% if patient.gender == "Female" %}selected{% endif %}>Female</option>
+                <option value="Other" {% if patient.gender == "Other" %}selected{% endif %}>Other</option>
+              </select>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-warning">Save Changes</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-2 text-end mx-4 my-2 mb-5">
+      
+      <a href="/patient/{{ patient.id }}/dashboard" class="btn btn-primary">Back</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
+</html>
